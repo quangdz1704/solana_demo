@@ -1,351 +1,387 @@
 {
-  "version": "0.1.0",
-  "name": "market",
-  "instructions": [
-    {
-      "name": "createNft",
-      "accounts": [
+    "version": "0.1.0",
+    "name": "vesting",
+    "instructions": [
         {
-          "name": "metadata",
-          "isMut": true,
-          "isSigner": false
+            "name": "initialize",
+            "accounts": [
+                {
+                    "name": "initializer",
+                    "isMut": true,
+                    "isSigner": true
+                },
+                {
+                    "name": "mintOfVestingToken",
+                    "isMut": false,
+                    "isSigner": false
+                },
+                {
+                    "name": "locker",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "vestingAccount",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "systemProgram",
+                    "isMut": false,
+                    "isSigner": false
+                },
+                {
+                    "name": "rent",
+                    "isMut": false,
+                    "isSigner": false
+                },
+                {
+                    "name": "tokenProgram",
+                    "isMut": false,
+                    "isSigner": false
+                }
+            ],
+            "args": [
+                {
+                    "name": "round",
+                    "type": "string"
+                },
+                {
+                    "name": "schedule",
+                    "type": {
+                        "vec": "i64"
+                    }
+                },
+                {
+                    "name": "percents",
+                    "type": {
+                        "vec": "u64"
+                    }
+                },
+                {
+                    "name": "denominator",
+                    "type": "u64"
+                }
+            ]
         },
         {
-          "name": "mint",
-          "isMut": true,
-          "isSigner": true
+            "name": "addGrant",
+            "accounts": [
+                {
+                    "name": "authorizer",
+                    "isMut": true,
+                    "isSigner": true
+                },
+                {
+                    "name": "vestingAccount",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "grant",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "systemProgram",
+                    "isMut": false,
+                    "isSigner": false
+                }
+            ],
+            "args": [
+                {
+                    "name": "user",
+                    "type": "publicKey"
+                },
+                {
+                    "name": "amount",
+                    "type": "u64"
+                }
+            ]
         },
         {
-          "name": "tokenAccount",
-          "isMut": true,
-          "isSigner": false
+            "name": "claimVesting",
+            "accounts": [
+                {
+                    "name": "user",
+                    "isMut": true,
+                    "isSigner": true
+                },
+                {
+                    "name": "vestingAccount",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "grant",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "locker",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "tokenReceiver",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "mintOfVestingToken",
+                    "isMut": false,
+                    "isSigner": false
+                },
+                {
+                    "name": "systemProgram",
+                    "isMut": false,
+                    "isSigner": false
+                },
+                {
+                    "name": "rent",
+                    "isMut": false,
+                    "isSigner": false
+                },
+                {
+                    "name": "tokenProgram",
+                    "isMut": false,
+                    "isSigner": false
+                },
+                {
+                    "name": "associatedTokenProgram",
+                    "isMut": false,
+                    "isSigner": false
+                }
+            ],
+            "args": []
         },
         {
-          "name": "mintAuthority",
-          "isMut": true,
-          "isSigner": true
+            "name": "removeGrant",
+            "accounts": [
+                {
+                    "name": "authorizer",
+                    "isMut": true,
+                    "isSigner": true
+                },
+                {
+                    "name": "vestingAccount",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "grant",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "systemProgram",
+                    "isMut": false,
+                    "isSigner": false
+                }
+            ],
+            "args": [
+                {
+                    "name": "user",
+                    "type": "publicKey"
+                }
+            ]
         },
         {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
+            "name": "withdrawLocker",
+            "accounts": [
+                {
+                    "name": "authorizer",
+                    "isMut": true,
+                    "isSigner": true
+                },
+                {
+                    "name": "vestingAccount",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "locker",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "tokenReceiver",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "systemProgram",
+                    "isMut": false,
+                    "isSigner": false
+                },
+                {
+                    "name": "tokenProgram",
+                    "isMut": false,
+                    "isSigner": false
+                }
+            ],
+            "args": []
         },
         {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "associatedTokenProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "tokenMetadataProgram",
-          "isMut": false,
-          "isSigner": false
+            "name": "updateVesting",
+            "accounts": [
+                {
+                    "name": "authorizer",
+                    "isMut": true,
+                    "isSigner": true
+                },
+                {
+                    "name": "vestingAccount",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "systemProgram",
+                    "isMut": false,
+                    "isSigner": false
+                },
+                {
+                    "name": "rent",
+                    "isMut": false,
+                    "isSigner": false
+                },
+                {
+                    "name": "tokenProgram",
+                    "isMut": false,
+                    "isSigner": false
+                }
+            ],
+            "args": [
+                {
+                    "name": "schedule",
+                    "type": {
+                        "vec": "i64"
+                    }
+                },
+                {
+                    "name": "percents",
+                    "type": {
+                        "vec": "u64"
+                    }
+                },
+                {
+                    "name": "denominator",
+                    "type": "u64"
+                },
+                {
+                    "name": "isPaused",
+                    "type": "bool"
+                }
+            ]
         }
-      ],
-      "args": [
+    ],
+    "accounts": [
         {
-          "name": "metadataTitle",
-          "type": "string"
+            "name": "Grant",
+            "type": {
+                "kind": "struct",
+                "fields": [
+                    {
+                        "name": "totalAmount",
+                        "type": "u64"
+                    },
+                    {
+                        "name": "claimedAmount",
+                        "type": "u64"
+                    },
+                    {
+                        "name": "bump",
+                        "type": "u8"
+                    }
+                ]
+            }
         },
         {
-          "name": "metadataSymbol",
-          "type": "string"
-        },
-        {
-          "name": "metadataUri",
-          "type": "string"
-        },
-        {
-          "name": "amount",
-          "type": "u64"
+            "name": "Vesting",
+            "type": {
+                "kind": "struct",
+                "fields": [
+                    {
+                        "name": "round",
+                        "type": "string"
+                    },
+                    {
+                        "name": "authorizer",
+                        "type": "publicKey"
+                    },
+                    {
+                        "name": "isPaused",
+                        "type": "bool"
+                    },
+                    {
+                        "name": "mintOfVestingToken",
+                        "type": "publicKey"
+                    },
+                    {
+                        "name": "totalVestedAmount",
+                        "type": "u64"
+                    },
+                    {
+                        "name": "totalClaimedAmount",
+                        "type": "u64"
+                    },
+                    {
+                        "name": "schedule",
+                        "type": {
+                            "vec": "i64"
+                        }
+                    },
+                    {
+                        "name": "percents",
+                        "type": {
+                            "vec": "u64"
+                        }
+                    },
+                    {
+                        "name": "denominator",
+                        "type": "u64"
+                    }
+                ]
+            }
         }
-      ]
-    },
-    {
-      "name": "createToken",
-      "accounts": [
+    ],
+    "types": [
         {
-          "name": "metadata",
-          "isMut": true,
-          "isSigner": false
+            "name": "ClaimVestingError",
+            "type": {
+                "kind": "enum",
+                "variants": [
+                    {
+                        "name": "NotInClaimableTime"
+                    },
+                    {
+                        "name": "NoTokenToClaim"
+                    },
+                    {
+                        "name": "Paused"
+                    }
+                ]
+            }
         },
         {
-          "name": "mint",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "tokenAccount",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "mintAuthority",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "associatedTokenProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "tokenMetadataProgram",
-          "isMut": false,
-          "isSigner": false
+            "name": "CloseGrantError",
+            "type": {
+                "kind": "enum",
+                "variants": [
+                    {
+                        "name": "InternalError"
+                    }
+                ]
+            }
         }
-      ],
-      "args": [
+    ],
+    "errors": [
         {
-          "name": "metadataTitle",
-          "type": "string"
-        },
-        {
-          "name": "metadataSymbol",
-          "type": "string"
-        },
-        {
-          "name": "metadataUri",
-          "type": "string"
-        },
-        {
-          "name": "amount",
-          "type": "u64"
+            "code": 6000,
+            "name": "InvalidInput"
         }
-      ]
-    },
-    {
-      "name": "mintNft",
-      "accounts": [
-        {
-          "name": "mint",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "tokenAccount",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "tokenAccountAuthority",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "mintAuthority",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "associatedTokenProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": [
-        {
-          "name": "amount",
-          "type": "u64"
-        }
-      ]
-    },
-    {
-      "name": "mintToken",
-      "accounts": [
-        {
-          "name": "mint",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "tokenAccount",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "tokenAccountAuthority",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "mintAuthority",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "associatedTokenProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": [
-        {
-          "name": "amount",
-          "type": "u64"
-        }
-      ]
-    },
-    {
-      "name": "sell",
-      "accounts": [
-        {
-          "name": "mint",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "ownerTokenAccount",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "ownerAuthority",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "buyerTokenAccount",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "buyerAuthority",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "associatedTokenProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": [
-        {
-          "name": "saleLamports",
-          "type": "u64"
-        },
-        {
-          "name": "amount",
-          "type": "u64"
-        }
-      ]
+    ],
+    "metadata": {
+        "address": "FZkGe6YGtWeLJFbhE7DfQAzp7Wre6m81ydiGy44CDwP7"
     }
-  ],
-  "events": [
-    {
-      "name": "CreatedNFT",
-      "fields": [
-        {
-          "name": "nft",
-          "type": "publicKey",
-          "index": false
-        },
-        {
-          "name": "user",
-          "type": "publicKey",
-          "index": false
-        },
-        {
-          "name": "amount",
-          "type": "u64",
-          "index": false
-        }
-      ]
-    },
-    {
-      "name": "CreatedToken",
-      "fields": [
-        {
-          "name": "nft",
-          "type": "publicKey",
-          "index": false
-        },
-        {
-          "name": "user",
-          "type": "publicKey",
-          "index": false
-        },
-        {
-          "name": "amount",
-          "type": "u64",
-          "index": false
-        },
-        {
-          "name": "decimal",
-          "type": "u8",
-          "index": false
-        }
-      ]
-    }
-  ]
 }
